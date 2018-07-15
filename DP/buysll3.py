@@ -1,27 +1,29 @@
+"""
+Solution with best explanation
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/135704/Detail-explanation-of-DP-solution
+"""
+
 class Solution:
-    def maxProfit(self, prices):
+    def maxProfitHelper(self, prices, m):
         """
         :type prices: List[int]
         :rtype: int
         """
         if not prices : return 0
-        n = len(prices)
-        ans = 0
-        dp = [[0 for _ in range(n)] for _ in range(n)]
-        minarray = [x for x in prices]
-        value = minarray[-1]
-        for i in range(n-2, -1, -1):
-            if minarray[i] > value:
-                minarray[i] = value
-            else:
-                value = minarray[i]
-        for i in range(n):
-            for j in range(n):
-                if i<j:
-                    dp[i][j] = max(dp[i][j-1], prices[j] - minarray[i])
-        ans = dp[0][n-1]
-        for i in range(n-1):
-            ans = max(ans, dp[0][i] + dp[i+1][n-1])
-        return ans
+        n = len(prices)+1
+        prices = [0] + prices
+        m = m+1
+        dp = [[0 for _ in range(n)] for _  in range(m)]
+        for i in range(1,m):
+            mv = prices[1]
+            for j in(range(2,n)):
+                mv = min(mv, prices[j] - dp[i-1][j-1])
+                dp[i][j] = max(dp[i][j-1], prices[j] - mv)
+        return dp[-1][-1]
+
+    def maxProfit(self, prices):
+        return self.maxProfitHelper(prices, 2)
+
+
         
-print(Solution().maxProfit([3,3,5,0,0,3,1,4]))
+print(Solution().maxProfit([1,4,5,1,7,5,6]))
