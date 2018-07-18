@@ -10,33 +10,31 @@ class Solution:
         stack = []
         prev = None
         for log in logs:
+            curr = log.split(':')
+            """
+            prev always behaves like a start time
+            so if an end time is folowed by another end time,
+            prev is incremented by 1 to make it a start time of 
+            the next process
+            Instead of looking at the whole process look at each log 
+            as a separate piece of execution
+            """
             if stack :
-                t1 = int(stack[-1].split(':')[-1])
-                t2 = int(log.split(':')[-1])
-                if "end" in log and "start" in stack[-1]:
-                    p = int(log.split(':')[0])
-                    if prev :
-                       t3 = int(prev.split(':')[-1])
-                       ans[p] += t2 - t3
-                    else:
-                        ans[p] += t2 - t1 + 1
-                    prev = log
+                if "end" in log :
+                    ans[stack[-1]] += int(curr[2]) - prev + 1
                     stack.pop()
-                elif "start" in log:
-                    p = int(stack[-1].split(':')[0])
-                    if prev :
-                       t3 = int(prev.split(':')[-1])
-                       ans[p] += t2 - t3 - 1
-                       prev = None
-                    else:
-                       ans[p] +=  t2 -  t1 
-                    stack.append(log)
+                    prev = int(curr[2]) + 1
+                else:
+                    ans[stack[-1]] += int(curr[2]) - prev
+                    stack.append(int(curr[0]))
+                    prev = int(curr[2]) 
             else:
-                stack.append(log)
+                stack.append(int(curr[0]))
+                prev = int(curr[2])
         return ans
 
-print(Solution().exclusiveTime(1,
-["0:start:0","0:start:2","0:end:5","0:start:6","0:end:6","0:end:7"]
+print(Solution().exclusiveTime(2,
+["0:start:0","1:start:2","1:end:5","0:end:8"]
 ))
 
         
