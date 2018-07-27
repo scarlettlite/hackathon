@@ -1,19 +1,23 @@
 class Solution:
-    def helper(self, nums, i):
-        if i == len(nums):
-            self.ans.add(tuple(nums))
+    def __init__(self):
+        self.ans = set()
+
+    def helper(self, candidates, target, solution):
+        if target == 0:
+            self.ans.add(tuple(solution[:]))
         else:
-            for j in range(i,len(nums)):
-                nums[i], nums[j] = nums[i], nums[j]
-                self.helper(nums, i+1)
-                nums[i], nums[j] = nums[i], nums[j]
-        
-        
-    def permuteUnique(self, nums):
+            for i,x in enumerate(candidates):
+                if x <= target:
+                    solution.append(x)
+                    self.helper(candidates[i+1:], target-x, solution)
+                    solution.pop()
+
+    def combinationSum2(self, candidates, target):
         """
-        :type nums: List[int]
+        :type candidates: List[int]
+        :type target: int
         :rtype: List[List[int]]
         """
-        self.ans = set()
-        self.helper(nums, 0)
+        candidates.sort()
+        self.helper(candidates, target, [])
         return [list(x) for x in self.ans]
