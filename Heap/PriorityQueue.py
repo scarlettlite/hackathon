@@ -14,6 +14,9 @@ class PriorityQueue:
         if r < len(self.heap) and self.heap[r] < self.heap[i]:
             largest = r
         if largest != i:
+            """
+            you could swap in a function
+            """
             self.heap[largest], self.heap[i] = self.heap[i], self.heap[largest]
             self.dict[self.heap[largest]] = largest
             self.dict[self.heap[i]] = i
