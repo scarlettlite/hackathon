@@ -1,27 +1,47 @@
-class Solution:
+class TreeNode:
+    def __init__(self, val):
+        self.left = None
+        self.val = val
+        self.right = None
 
-    def helper(self, arr):
-        ans = True
-        if arr:
-            root = arr[0]
-            bigger = -1
-            for i,x in enumerate(arr):
-                if x < root and bigger != -1:
-                    ans = False
-                    break
-                if x > root and bigger == -1:
-                    bigger = i
-            if ans and bigger > 0:
-                ans = self.helper(arr[1: bigger]) and self.helper(arr[bigger:])
-            if ans and bigger == -1:
-                ans = self.helper(arr[1:])
-        return ans
-        
+class Solution:
     def verifyPreorder(self, preorder):
         """
         :type preorder: List[int]
         :rtype: bool
         """
-        return self.helper(preorder)
+        stack, low = [], float('-inf')
+        for x in preorder:
+            if x < low:
+                return False
+            if not stack:
+                stack.append(x)
+            else:
+                if x < stack[-1]:
+                    stack.append(x)
+                else:
+                    while stack and stack[-1] < x:
+                        low = stack.pop()
+                    stack.append(x)
+        return True
+        
+# solution with O(1) space
+# class Solution:
+#     # use stack-pointer to reduce space to O(1)
+#     def verifyPreorder(self, preorder):
+#         """
+#         :type preorder: List[int]
+#         :rtype: bool
+#         """
+#         stack, low = -1, float('-inf')
+#         for val in preorder:
+#             if val < low:
+#                 return False
+#             while stack >= 0 and val > preorder[stack]:
+#                 low = preorder[stack]
+#                 stack -= 1
+#             stack += 1
+#             preorder[stack] = val
+#         return True
 
-Solution().verifyPreorder([4,2,3,1])
+print(Solution().verifyPreorder([5,2,6,1,3]))
