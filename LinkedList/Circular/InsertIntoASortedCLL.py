@@ -2,9 +2,9 @@
 # Definition for a Node.
 """
 class Node(object):
-    def __init__(self, val, next):
+    def __init__(self, val, n):
         self.val = val
-        self.next = next
+        self.next = n
 
 class Solution(object):
     def insert(self, head, insertVal):
@@ -21,19 +21,11 @@ class Solution(object):
             while pointer.val <= pointer.next.val:
                 pointer = pointer.next
             largest, smallest = pointer, pointer.next
-            prev = None
+            pointer = smallest
             if node.val <= smallest.val or node.val >= largest.val:
                 prev = largest
-            elif node.val < head.val:
-                pointer = smallest
-                while node.val > pointer.val:
-                    prev = pointer
-                    pointer = pointer.next
-            elif node.val == head.val:
-                prev = head
             else:
-                pointer = head
-                while node.val > pointer.val:
+                while pointer.val < node.val:
                     prev = pointer
                     pointer = pointer.next
             succ = prev.next
@@ -53,9 +45,9 @@ node2.next = head
 
 
 Solution().insert(head, 0)
-# Solution().insert(head, 6)
-# Solution().insert(head, 4)
-# Solution().insert(head, 2.75)
+Solution().insert(head, 6)
+Solution().insert(head, 4)
+Solution().insert(head, 2.75)
 pointer = head.next
 print(head.val)
 while pointer != head:
