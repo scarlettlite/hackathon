@@ -20,7 +20,7 @@ class Solution:
             path.pop()
             return 
         if word == des:
-            if len(self.ans) >= 1 and len(self.ans[-1]) > len(path):
+            if len(self.ans) > 0 and len(self.ans[-1]) > len(path):
                 self.ans.clear()
             self.ans.append(path[:])
             visited.remove(word)
@@ -39,10 +39,9 @@ class Solution:
         :type wordList: List[str]
         :rtype: List[List[str]]
         """
-        wordList = list(set(wordList) | set([beginWord, endWord]))
+        wordList = list(set(wordList) | set([beginWord]))
         graph = self.creategraph(wordList)
         self.helper(graph, set(), beginWord, [], endWord)
-        
         return self.ans
 
 
