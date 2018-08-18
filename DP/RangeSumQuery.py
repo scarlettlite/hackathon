@@ -20,9 +20,9 @@ def getRangeSum(rangeSums, i, j):
 
 def main():
     rangeSums = calculateRangeSum([-2, 0, 3, -5, 2, -1])
-    print getRangeSum(rangeSums, 0, 2)
-    print getRangeSum(rangeSums, 2, 5)
-    print getRangeSum(rangeSums, 0, 5)
+    print(getRangeSum(rangeSums, 0, 2))
+    print(getRangeSum(rangeSums, 2, 5))
+    print(getRangeSum(rangeSums, 0, 5))
 
 main()
 

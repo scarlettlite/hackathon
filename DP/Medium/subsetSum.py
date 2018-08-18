@@ -1,3 +1,6 @@
+"""
+Whether an Array Contains a subset which adds up to given target
+"""
 class Solution:
     def subsetSum(self, arr, tot):
         if not arr and tot == 0: return True
