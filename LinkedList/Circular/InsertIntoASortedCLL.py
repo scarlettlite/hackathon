@@ -49,9 +49,10 @@ Solution().insert(head, 6)
 Solution().insert(head, 4)
 Solution().insert(head, 2.75)
 pointer = head.next
-print(head.val)
+print(head.val, ' ', end='')
 while pointer != head:
-    print(pointer.val)
+    print(pointer.val, ' ', end='')
     pointer = pointer.next
+print()
 
 
