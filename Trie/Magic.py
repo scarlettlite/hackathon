@@ -1,7 +1,7 @@
 import collections
 class MagicDictionary(object):
     def _genneighbors(self, word):
-        for i in xrange(len(word)):
+        for i in range(len(word)):
             yield word[:i] + '*' + word[i+1:]
 
     def buildDict(self, words):
