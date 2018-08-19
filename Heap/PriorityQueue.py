@@ -1,25 +1,25 @@
 import heapq
-
+from collections import defaultdict
 class PriorityQueue:
     def __init__(self):
         self.heap = []
-        self.dict = {}
+        self.dict = defaultdict(list)
+
+    def swap(self, i, j):
+        self.heap[j], self.heap[i] = self.heap[i], self.heap[j]
+        self.dict[self.heap[j]] = j
+        self.dict[self.heap[i]] = i
 
     def minheapify(self, i):
         largest = i
         l = 2*i + 1
         r = 2*i + 2
-        if l < len(self.heap) and self.heap[l] < self.heap[i]:
+        if l < len(self.heap) and self.heap[l] <= self.heap[i]:
             largest = l
-        if r < len(self.heap) and self.heap[r] < self.heap[i]:
+        if r < len(self.heap) and self.heap[r] <= self.heap[i]:
             largest = r
         if largest != i:
-            """
-            you could swap in a function
-            """
-            self.heap[largest], self.heap[i] = self.heap[i], self.heap[largest]
-            self.dict[self.heap[largest]] = largest
-            self.dict[self.heap[i]] = i
+            self.swap(i, largest)
             self.minheapify(largest)
 
 
@@ -27,12 +27,10 @@ class PriorityQueue:
         return self.heap[0]
 
     def extractmin(self):
-        self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]
-        self.dict[self.heap[0]] = 0
-        self.dict[self.heap[-1]] = len(self.heap) - 1
+        self.swap(0, len(self.heap) - 1)
         rv = self.heap.pop()
         del self.dict[rv]
-        self.minheapify(0);
+        self.minheapify(0)
         return rv
 
     def insert(self, obj):
@@ -54,9 +52,7 @@ class PriorityQueue:
             elif oldkey > newkey:
                 p = i//2
                 while i > -1 and self.heap[i] < self.heap[p]:
-                    self.heap[i], self.heap[p] = self.heap[p], self.heap[i]
-                    self.dict[self.heap[i]] = i
-                    self.dict[self.heap[p]] = p
+                    self.swap(i, p)
                     i, p = p, p//2
 
 
