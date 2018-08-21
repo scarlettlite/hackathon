@@ -7,6 +7,7 @@ assume that infinite supply of each denomination
 class Solution:
     def coinsways(self, coins, amount):
         n = len(coins)
+        coins.sort()
         dp = [[ 0 for j in range(amount+1)] for i in range(n+1)]
         for i in range(n+1):
             dp[i][0] = 1
@@ -17,7 +18,7 @@ class Solution:
                     dp[i][j] += dp[i][j-coins[i-1]]
         return dp[-1][-1]
 
-Solution().coinsways([1,2,3], 5)
+Solution().coinsways([1,2,3], 4)
 
             
 

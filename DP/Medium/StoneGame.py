@@ -10,8 +10,9 @@ class Solution:
         """
         n = len(nums)
         dp = [[0 for i in range(n)] for j in range(n)]
-        for s in range(n-2, -1, -1):
-            for e in range(s+1, n):
+        for l in range(2,n+1):
+            for s in range(0, n-l+1):
+                e = s + l - 1
                 dp[s][e] = max(nums[s] - dp[s+1][e], nums[e] - dp[s][e-1])
         return dp[0][-1] >= 0
 
