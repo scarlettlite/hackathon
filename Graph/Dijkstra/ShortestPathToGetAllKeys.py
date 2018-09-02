@@ -1,5 +1,5 @@
 """https://leetcode.com/problems/shortest-path-to-get-all-keys/"""
-
+from collections import deque
 import heapq
 class Solution:
     def getstartingpoint(self, grid):
@@ -22,30 +22,25 @@ class Solution:
         """
         if not grid: return -1
         sr, sc, ck = self.getstartingpoint(grid)
-        pq =  [(0, sr, sc)]
+        pq =  deque([(sr,sc,0,".@abcdef",0)])
         m,n = len(grid), len(grid[0])
-        seen, keys, ans = set((0,0)), set(), -1
+        seen = {(sr,sc,"","")}
+        direc = [[0,1],[0,-1],[1,0],[-1,0]]
         while pq:
-            d, r, c = heapq.heappop(pq)
-            y = grid[r][c]
-            if y.islower():
-                ans = d
-            for ir, ic in ((r,c+1), (r,c-1), (r-1,c), (r+1,c)):
-                if 0 <= ir < m and 0 <= ic < n and (ir, ic) not in seen:
-                    x = grid[ir][ic]
-                    if x == '.':
-                        heapq.heappush(pq, (d+1, ir, ic))
-                        #seen.add((ir, ic))
-                    if x.islower() :
-                        heapq.heappush(pq, (d+1, ir, ic))
-                        keys.add(x)
-                        #seen.add((ir, ic))
-                    if x.isupper() and x.lower() in keys:
-                        heapq.heappush(pq, (d+1, ir, ic))
-                        #seen.add((ir, ic))
-        if ck != len(keys):
-            ans = -1
-        return ans
+            r,c,d,keys,found = pq.popleft()
+            if grid[r][c] in 'abcdef' and grid[r][c].upper() not in keys: 
+                keys += grid[r][c].upper()
+                found += 1
+            if found == ck:
+                return d
+            for di, dj in direc:
+                ir, ic = r + di, c + dj
+                if 0 <= ir < m  and 0 <= ic < n and grid[ir][ic] in keys:
+                    if (ir,ic,keys) not in seen:
+                        seen.add((ir,ic,keys))
+                        pq.append((ir,ic,d+1,keys,found))
+        return -1
+
 
 print(Solution().shortestPathAllKeys(["@.CaA","..B#.",".c..b"]))   
 
