@@ -1,0 +1,17 @@
+class Solution:
+    def largestDivisibleSubset(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        nums.sort()
+        dp = [[num] for num in nums]
+        n = len(nums)
+        for i in range(n-1):
+            for j in range(i+1, n):
+                if nums[j] % nums[i] == 0 and len(dp[i]) >= len(dp[j]):
+                    dp[j] = dp[i] + [nums[j]]
+        dp.sort(key=len)
+        return dp[-1]
+
+print(Solution().largestDivisibleSubset([1,2,4,8]))

@@ -8,7 +8,7 @@ if an egg breaks on a floor then it will break on all floors above it
 """
 
 class Solution:
-    def eggDroppingPuzzles(self, eggs, floors):
+    def superEggDrop(self, eggs, floors):
         if not eggs or not floors: return 0
         eggs = eggs + 1
         floors = floors + 1
