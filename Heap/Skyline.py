@@ -5,19 +5,16 @@ class Solution:
         :type buildings: List[List[int]]
         :rtype: List[List[int]]
         """
-        events = sorted([(L, -H, R) for L, R, H in buildings] + list({(R, 0, None) for _, R, _ in buildings}))
-        res, hp = [[0, 0]], [(0, float("inf"))]
-        for x, negH, R in events:
-            while x >= hp[0][1]: 
-                heappop(hp)
-            if negH: 
-                heappush(hp, (negH, R))
-            if res[-1][1] + hp[0][0]: 
-                res += [x, -hp[0][0]],
-        return res[1:]
+        events = sorted([(L,-H,R) for L,R,H in buildings] + [(R,0,None) for L,R,H in  buildings])
+        heap = [(0,float('inf'))]
+        ans = []
+        for l, negH, r in events:
+            while heap and heap[0][1] <= l:
+                heappop(heap)
+            if negH != 0:
+                heappush(heap, (negH, r))
+            if not ans or ans[-1][1] != heap[0][0]:
+                ans.append([l, -heap[0][0]])
+        return ans
 
-
-
-print(Solution().getSkyline([[0,2,3],[2,5,3]]))
-
-
+print(Solution().getSkyline([[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]))
