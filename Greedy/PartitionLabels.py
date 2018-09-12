@@ -4,7 +4,7 @@ class Solution:
         :type S: str
         :rtype: List[int]
         """
-        ans, n = [-1], len(s)
+        ans = [-1]
         idxdict = {c:i for i,c in enumerate(s)}
         for i,c in enumerate(s):
             if i > ans[-1] and idxdict[c] > ans[-1]:
