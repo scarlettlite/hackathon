@@ -73,10 +73,10 @@ class Solution:
             else:
                 high = mid
         ans = low
+        #if number is larger than largest number in the array
+        #insert it at the end
         if nums[low] < key:
             ans = low + 1
-        elif nums[low] > key:
-            ans = 0
         print(ans)
 
 
