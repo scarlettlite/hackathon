@@ -20,8 +20,26 @@ class Solution(object):
         
         return dp[0][0]
 
+    def calculateMinimumHPRecursive(self, dungeon):
+        """
+        :type dungeon: List[List[int]]
+        :rtype: int
+        """
+        m,n = len(dungeon),len(dungeon[0])
+        d={(m-1,n-1):max(1,1-dungeon[m-1][n-1])}
+        def helper(i,j):
+            if (i,j) in d: return d[i,j]
+            if i==m-1:
+                d[i,j]=max(1,helper(i,j+1)-dungeon[i][j])
+            elif j==n-1:
+                d[i,j]=max(1,helper(i+1,j)-dungeon[i][j])
+            else:
+                d[i,j] = max(1,min(helper(i+1,j),helper(i,j+1))-dungeon[i][j])
+            return d[i,j]
+        return helper(0,0)
 
-print(Solution().calculateMinimumHP([[-2,-3,3],[-5,-10,1],[10,30,-5]]))
+
+print(Solution().calculateMinimumHPRecursive([[-2,-3,3],[-5,-10,1],[10,30,-5]]))
 
 
                
