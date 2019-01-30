@@ -10,11 +10,10 @@ class Solution:
         dp = [[True if i == 0 else False for j in range(n)] for i in range(m)]
         for i in range(1,m):
             for j in range(1,n):
-                dp[i][j] = dp[i][j-1]
                 if i >= arr[j]:
-                    if dp[i-arr[j]][j-1]:
-                        dp[i][j] = dp[i][j-1] or dp[i-arr[j]][j-1]
-            
+                    dp[i][j] = dp[i][j-1] or dp[i-arr[j]][j-1]
+                else:
+                    dp[i][j] = dp[i][j-1]
         print(self.printSol(dp, arr))
         return dp[-1][-1]
 
